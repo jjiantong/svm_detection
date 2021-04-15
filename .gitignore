@@ -1,0 +1,10 @@
+build
+cmake*
+dataset
+test*
+model
+eigen
+googletest
+.idea
+.DS_Store
+.gradle
