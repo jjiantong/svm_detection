@@ -434,8 +434,8 @@ void        print_struct_testing_stats(SAMPLE sample, STRUCTMODEL *sm,
      the function eval_prediction to accumulate the necessary
      statistics for each prediction. */
 
-  printf("\nAverage iou: %lf", teststats->total_iou / sample.n);
-  printf("\nprecision: %lf", teststats->truth / sample.n);
+  printf("Average iou: %lf\n", teststats->total_iou / sample.n);
+  printf("precision: %lf\n", teststats->truth / sample.n);
 }
 
 void        eval_prediction(long exnum, EXAMPLE ex, LABEL ypred, 
@@ -468,10 +468,12 @@ void        eval_prediction(long exnum, EXAMPLE ex, LABEL ypred,
     else {
         a = iou(yt, yp, sparm);
     }
+
     printf("\npre: %d (%d, %d)\tgt: %d (%d, %d)\tiou: %lf ",
            yp[0], yp[1], yp[2],
            yt[0], yt[1], yt[2], a);
     fflush(stdout);
+
     teststats->total_iou += a;
     if(a > 0.5)
         teststats->truth += 1;
