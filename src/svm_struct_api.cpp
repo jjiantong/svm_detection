@@ -355,22 +355,24 @@ SVECTOR     *psi(PATTERN x, LABEL L, STRUCTMODEL *model,
        that ybar!=y that maximizes psi(x,ybar,sm)*sm.w (where * is the
        inner vector product) and the appropriate function of the
        loss + margin/slack rescaling method. See that paper for details. */
-    SVECTOR *fvec = new SVECTOR[1];
-    fvec->words = new WORD[model->sizePsi +1];
     int bx = L.y[2], by = L.y[1];
     int bw = model->bw;
     int bh = model->bh;
 
+    int len = bw * bh;
     int shift = L.y[0] * bw * bh;
 
+    SVECTOR *fvec = new SVECTOR[1];
+    fvec->words = new WORD[len +1];
+
     WORD *words = fvec->words;
-    for(int i = 0; i< model->sizePsi; i++)
-        words[i].wnum = i + 1;
+    for(int i = 0; i< len; i++)
+        words[i].wnum = i + 1 + shift;
     for(int i =0; i < bh; i++)
         for(int j = 0; j < bw; j++)
-            words[shift + i*bw+j].weight = x.pword->val[bx+i][by+j];
-    words[model->sizePsi].wnum = 0;
-    words[model->sizePsi].weight = 0.0;
+            words[i*bw+j].weight = x.pword->val[bx+i][by+j];
+    words[len].wnum = 0;
+    words[len].weight = 0.0;
 
     fvec->factor = 1.0;
     fvec->next = NULL;
